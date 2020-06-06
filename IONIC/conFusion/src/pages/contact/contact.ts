@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { Leader } from '../../shared/leader';
 /**
  * Generated class for the ContactPage page.
  *
