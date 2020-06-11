@@ -1,8 +1,16 @@
+<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Dish Details</ion-title>
-  </ion-navbar>
+    
+      <ion-title>Dish Details</ion-title>
+    
+      <ion-buttons end>
+        <button ion-button closeModal icon-right clear (click)="toggleModal()">
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-buttons>
+     </ion-navbar>
 
 </ion-header>
 
