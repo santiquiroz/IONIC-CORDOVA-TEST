@@ -1,10 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { Dish } from '../../shared/dish';
 import { Comment } from '../../shared/comment';
 import { FavoriteProvider } from '../../providers/favorite/favorite';
 
 import { ActionSheetController } from 'ionic-angular';
+
+import { CommentPage } from '../comment/comment';
 
 /**
  * Generated class for the DishdetailPage page.
@@ -23,8 +25,9 @@ export class DishdetailPage {
   avgstars: string;
   numcomments: number;
   favorite: boolean;
+  comment: Comment;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController,
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController, public modalCtrl: ModalController,
     @Inject('BaseURL') private BaseURL,
     private favoriteservice: FavoriteProvider,
     private toastCtrl: ToastController) {
@@ -32,16 +35,16 @@ export class DishdetailPage {
     this.favorite = favoriteservice.isFavorite(this.dish.id);
     this.numcomments = this.dish.comments.length;
     let total = 0;
-    this.dish.comments.forEach(comment => total += comment.rating );
-    this.avgstars = (total/this.numcomments).toFixed(2);
-    
+    this.dish.comments.forEach(comment => total += comment.rating);
+    this.avgstars = (total / this.numcomments).toFixed(2);
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DishdetailPage');
   }
 
-   toggleActionSheet() {
+  toggleActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Select Actions',
       buttons: [
@@ -57,6 +60,12 @@ export class DishdetailPage {
           text: 'Add a Comment',
           handler: () => {
             console.log('Add a Comment clicked');
+            let modal = this.modalCtrl.create(CommentPage);
+            modal.onDidDismiss(data => {
+              console.log(data);
+              this.dish.comments.push(data);
+            });
+            modal.present();
           }
         },
         {
@@ -68,9 +77,10 @@ export class DishdetailPage {
         }
       ]
     });
- 
+
     actionSheet.present();
   }
+
 
   addToFavorites() {
     console.log('Adding to Favorites', this.dish.id);
@@ -78,7 +88,8 @@ export class DishdetailPage {
     this.toastCtrl.create({
       message: 'Dish ' + this.dish.id + ' added as favorite successfully',
       position: 'middle',
-      duration: 3000}).present();
+      duration: 3000
+    }).present();
   }
 
 }
