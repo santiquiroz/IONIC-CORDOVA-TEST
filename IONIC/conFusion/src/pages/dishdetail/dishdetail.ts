@@ -50,6 +50,7 @@ export class DishdetailPage {
           role: 'add to favorites',
           handler: () => {
             console.log('Add to Favorite clicked');
+            this.addToFavorites();
           }
         },
         {
