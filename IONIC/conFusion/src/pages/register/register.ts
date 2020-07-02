@@ -58,7 +58,8 @@ export class RegisterPage {
 
     this.camera.getPicture(options).then((imageData) => {
 
-      this.image = imageData;
+      let win: any = window;
+      this.image = win.Ionic.WebView.convertFileSrc(imageData);
       console.log(imageData);
     }, (err) => {
         console.log('Error obtaining picture')
@@ -79,7 +80,8 @@ export class RegisterPage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.image = imageData;
+      let win: any = window;
+      this.image = win.Ionic.WebView.convertFileSrc(imageData);
       console.log(imageData);
     },  (err) => {
       console.log('Error obtaining gallery picture')
